@@ -1,0 +1,55 @@
+# Helm values for Traefik (kind-friendly)
+deployment:
+  replicas: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: 300m
+    memory: 128Mi
+
+# Use NodePort for kind access (mapped via extraPortMappings)
+service:
+  type: NodePort
+
+# Entry points
+ports:
+  web:
+    port: 8000
+    expose:
+      default: true
+    exposedPort: 80
+    nodePort: 30080
+  websecure:
+    port: 8443
+    expose:
+      default: true
+    exposedPort: 443
+    nodePort: 30443
+
+# Tolerate control-plane taint if scheduled there
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+
+# Enable dashboard for local development
+ingressRoute:
+  dashboard:
+    enabled: true
+
+# Logs
+logs:
+  general:
+    level: INFO
+  access:
+    enabled: true
+
+# Prometheus metrics
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntrypointsLabels: true
+    addServicesLabels: true

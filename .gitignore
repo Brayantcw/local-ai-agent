@@ -1,0 +1,26 @@
+# Environment
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kubernetes secrets (never commit real secrets)
+*-secret.yaml
+!*-sealed-secret.yaml
+
+# Helm
+charts/
